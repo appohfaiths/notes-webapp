@@ -16,3 +16,4 @@
 The title, created at, updated at and body
 4. When you click the edit button it activates the inputs on the title and body
 5. Notes are saved as user types
+6. Let user enter name to start and generate an id for user to add to tasks
