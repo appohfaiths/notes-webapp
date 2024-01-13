@@ -29,8 +29,8 @@ export default function Home(): React.JSX.Element {
     ]
     return (
         <Layout>
-            <main className='container mx-auto'>
-                <h1 className='text-2xl text-red-500'>Home</h1>
+            <main className='container mx-auto flex flex-col gap-8'>
+                <h1 className='text-2xl text-red-500 pt-8'>Home</h1>
                 <CTA type='home' title="What's on your mind?" />
                 <NotesDisplay notes={testNotes} />
             </main>
