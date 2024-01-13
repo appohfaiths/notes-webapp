@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 import os
+import time
 from typing import Optional
 from uuid import uuid4
 from fastapi import FastAPI, HTTPException
@@ -24,8 +24,8 @@ class Note(BaseModel):
     body: str
     note_id: str
     user_id: Optional[str] = None
-    created_time: datetime
-    updated_time: Optional[datetime] = None
+    created_time: int
+    updated_time: Optional[int] = None
 
 
 @app.get("/")
@@ -41,13 +41,12 @@ async def create_note(note: Note):
             status_code=400, detail=f"Note with title {note.title} already exists")
 
     # create a note
-    created_time = datetime.now(timezone.utc)
-    created_timestamp = int(created_time.timestamp())
+    created_time = int(time.time())
     item = {
         "user_id": note.user_id,
         "title": note.title,
         "body": note.body,
-        "created_time": created_timestamp,
+        "created_time": created_time,
         "note_id": f"note_{uuid4().hex}",
         "ttl": created_time + 86400
     }
@@ -83,8 +82,7 @@ async def list_notes(user_id: str):
 
 @app.put("/update-note")
 async def update_note(note: Note):
-    updated_time = datetime.now(timezone.utc)
-    updated_timestamp = int(updated_time.timestamp())
+    updated_time = int(time.time())
     table = _get_table()
     table.update_item(
         Key={"note_id": note.note_id},
@@ -92,7 +90,7 @@ async def update_note(note: Note):
         ExpressionAttributeValues={
             ":title": note.title,
             ":body": note.body,
-            ":updated_time": updated_timestamp,
+            ":updated_time": updated_time,
         },
         ReturnValues="ALL_NEW",
     )
@@ -106,11 +104,6 @@ async def delete_note(note_id: str):
     return {"deleted_note_id": note_id}
 
 
-def _get_table():
-    table_name = os.environ.get("TABLE_NAME")
-    return boto3.resource("dynamodb").Table(table_name)
-
-
 def is_title_unique(title: str) -> bool:
     table = _get_table()
     response = table.query(
@@ -119,3 +112,8 @@ def is_title_unique(title: str) -> bool:
         ProjectionExpression="title"
     )
     return len(response.get("Items", [])) == 0
+
+
+def _get_table():
+    table_name = "TodoAppInfraStack-Notes5BB3582F-Z5DRS143CW9R"
+    return boto3.resource("dynamodb").Table(table_name)
