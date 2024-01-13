@@ -10,21 +10,24 @@ export default function Home(): React.JSX.Element {
             user_id: "user1",
             title: 'Test Note',
             body: 'This is a test note',
-            created_at: 1705106043
+            created_at: 1705106043,
+            updated_at: 0
         },
         {
             note_id: "note2",
             user_id: "user1",
             title: 'Test Note 2',
             body: 'This is a test note 2',
-            created_at: 1705106043
+            created_at: 1705106043,
+            updated_at: 0
         },
         {
             note_id: "note3",
             user_id: "user1",
             title: 'Test Note 3',
             body: 'This is a test note 3',
-            created_at: 1705177732
+            created_at: 1705177732,
+            updated_at: 0
         }
     ]
     return (

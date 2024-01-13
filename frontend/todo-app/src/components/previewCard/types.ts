@@ -3,4 +3,5 @@ export interface PreviewCardProps {
     body: string;
     created_at: number;
     note_id: string;
+    updated_at?: number;
 }
