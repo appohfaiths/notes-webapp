@@ -10,7 +10,7 @@ export const CTA: React.FC<CTAProps> = ({ type, title }) => {
             case 'create':
                 return <h1 className='text-2xl text-red-500'>Create Note</h1>
             case 'view':
-                return <h1 className='text-2xl text-red-500'>Edit Note</h1>
+                return <h1 className='text-2xl text-red-500'>{title}</h1>
             default:
                 return <h1 className='text-2xl text-red-500'>Welcome to Note Pal</h1>
         }
