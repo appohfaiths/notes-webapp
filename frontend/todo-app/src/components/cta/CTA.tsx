@@ -15,15 +15,28 @@ export const CTA: React.FC<CTAProps> = ({ type, title }) => {
                 return <h1 className='text-2xl text-red-500'>Welcome to Note Pal</h1>
         }
     }
+    const renderRightSection = () => {
+        switch (type) {
+            case 'home':
+                return <CustomButton variant={'create'} />
+            case 'create':
+                return <CustomButton variant={'save'} />
+            case 'view':
+                return <>
+                <CustomButton variant={'edit'} />
+                <CustomButton variant={'delete'} />
+                </>
+            default:
+                return null
+        }
+    }
   return (
-      <header className="flex items-center justify-between border-2 border-primary-blue p-8">
+      <header className="flex items-center justify-between border-2 border-primary-blue p-8 rounded-2xl">
           <div>
                 {renderLeftSection()}
           </div>
           <div>
-              <h1 className='text-2xl text-red-500'>One or two buttons</h1>
-                <CustomButton />
-                <CustomButton />
+              {renderRightSection()}
           </div>
     </header>
   )
