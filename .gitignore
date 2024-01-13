@@ -1,3 +1,5 @@
 **/*.pyc
 **/*.zip
 api/lib
+# Local Netlify folder
+.netlify

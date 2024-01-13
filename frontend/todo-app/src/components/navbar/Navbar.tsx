@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const Navbar = () => {
   return (
       <nav className='w- h-8 bg-primary-blue flex items-center justify-center p-8'>
