@@ -1,4 +1,3 @@
-import os
 import time
 from typing import Optional
 from uuid import uuid4
@@ -25,7 +24,7 @@ class Note(BaseModel):
     note_id: str
     user_id: Optional[str] = None
     created_time: int
-    updated_time: Optional[int] = None
+    updated_time: int
 
 
 @app.get("/")
@@ -47,6 +46,7 @@ async def create_note(note: Note):
         "title": note.title,
         "body": note.body,
         "created_time": created_time,
+        "updated_time": created_time,
         "note_id": f"note_{uuid4().hex}",
         "ttl": created_time + 86400
     }
@@ -94,7 +94,7 @@ async def update_note(note: Note):
         },
         ReturnValues="ALL_NEW",
     )
-    return {"updated_note_id": note.note_id, "updated_time": updated_time}
+    return {"updated_note": note}
 
 
 @app.delete("/delete-note/{note_id}")
