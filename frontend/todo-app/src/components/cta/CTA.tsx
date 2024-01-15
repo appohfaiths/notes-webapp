@@ -10,7 +10,7 @@ export const CTA: React.FC<CTAProps> = ({ type, title, customInput, buttonAction
             case 'create':
                 return customInput ? customInput : null
             case 'view':
-                return <h1 className='text-2xl text-red-500'>{title}</h1>
+                return customInput ? customInput : null
             default:
                 return <h1 className='text-2xl text-red-500'>Welcome to Note Pal</h1>
         }
@@ -23,7 +23,6 @@ export const CTA: React.FC<CTAProps> = ({ type, title, customInput, buttonAction
                 return <CustomButton variant={'save'} buttonAction={buttonAction}/>
             case 'view':
                 return <>
-                <CustomButton variant={'edit'} buttonAction={buttonAction}/>
                 <CustomButton variant={'delete'} buttonAction={buttonAction}/>
                 </>
             default:

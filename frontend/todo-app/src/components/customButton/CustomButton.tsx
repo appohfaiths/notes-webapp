@@ -21,7 +21,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({variant, buttonAction
         break;
       case 'delete':
         // Dispatch Redux action to delete from the database
-        // dispatch(/* Your delete action here */);
+        buttonAction(e)
         // Redirect to the home page after deletion
         navigator('/');
         break;
@@ -59,12 +59,27 @@ export const CustomButton: React.FC<CustomButtonProps> = ({variant, buttonAction
       default:
         return null;
     }
+      };
+
+    const getButtonColor = () => {
+    switch (variant) {
+      case 'create':
+        return 'bg-primary-blue hover:bg-blue-600';
+      case 'edit':
+        return 'bg-blue-500 hover:bg-blue-600';
+      case 'save':
+        return 'bg-primary-green hover:bg-green-600';
+      case 'delete':
+        return 'bg-primary-red hover:bg-red-600';
+      default:
+        return 'bg-blue-500 hover:bg-blue-600';
+    }
   };
 
     return (
         <button
       onClick={handleButtonClick}
-      className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl'
+      className={`text-white font-bold py-2 px-4 rounded-xl ${getButtonColor()}`}
     >
       {renderButtonContent()}
     </button>
