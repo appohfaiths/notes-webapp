@@ -16,7 +16,6 @@ export default function Create(): React.JSX.Element {
     }
 
     const handleSave = () => {
-        // dispatch action to save to database
         console.log(title + ' plus ' + body)
         setTitle('')
         setBody('')

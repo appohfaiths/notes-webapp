@@ -1,0 +1,87 @@
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { Note, NoteState } from "../../../types/note";
+import { RootState } from "../../app/store";
+import { baseApiEndpoint } from "../../../utils/constants";
+
+const initialState: NoteState = {
+    notes: [],
+    isLoading: false,
+    error: null
+}
+
+export const fetchNotes = createAsyncThunk(
+    "notes/getNotes",
+    async () => {
+        try {
+            const response = await axios.get(`${baseApiEndpoint}/list-notes`);
+        return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+)
+
+export const addNote = createAsyncThunk(
+    "notes/addNote",
+    async (note: Note) => {
+        try {
+            const response = await axios.post(`${baseApiEndpoint}/create-note`, note);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+)
+
+export const updateNote = createAsyncThunk(
+    "notes/updateNote",
+    async (note: Note) => {
+        try {
+            const response = await axios.put(`${baseApiEndpoint}/update-note`, note);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+)
+
+export const deleteNote = createAsyncThunk(
+    "notes/deleteNote",
+    async (note_id: string) => {
+        try {
+            const response = await axios.delete(`${baseApiEndpoint}/delete-note/${note_id}`);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+)
+
+const notesSlice = createSlice({
+    name: 'notes',
+    initialState,
+    reducers: {},
+    extraReducers: builder => {
+        builder.addCase(fetchNotes.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(fetchNotes.fulfilled, (state, action: PayloadAction<Note[]>) => {
+            state.isLoading = false;
+            state.notes = action.payload;
+        });
+        builder.addCase(fetchNotes.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message || 'Something went wrong';
+        });
+    }
+});
+
+export const selectNotes = (state: RootState) => state.notes.notes;
+export const selectIsLoading = (state: RootState) => state.notes.isLoading;
+export const selectError = (state: RootState) => state.notes.error;
+export default notesSlice.reducer;

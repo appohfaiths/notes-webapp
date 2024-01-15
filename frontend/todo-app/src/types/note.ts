@@ -6,3 +6,9 @@ export interface Note {
     created_at: number;
     updated_at: number;
 }
+
+export interface NoteState {
+    notes: Note[];
+    isLoading: boolean;
+    error: string | null;
+}

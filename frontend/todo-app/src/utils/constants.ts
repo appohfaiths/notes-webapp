@@ -1,0 +1,1 @@
+export const baseApiEndpoint: string = "https://zfcq5cgd7np6zqyi3g5xint2yi0fvbbq.lambda-url.us-east-1.on.aws/";
