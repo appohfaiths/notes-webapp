@@ -52,7 +52,9 @@ export default function View(): React.JSX.Element {
                 <h1 className='text-2xl text-red-500'>View Note</h1>
                 <CTA type='view' customInput={titleInput} buttonAction={handleDelete}/>
                 <p>last updated: {ConvertUnixTimeToDate(updated_time)}</p>
-                <CustomInput variant={'textarea'} value={body} placeholder='note body' name='body' rows={20} onChange={handleInputChange}/>
+                <section className='mt-8 p-2 rounded-xl border-2 border-primary-blue'>
+                    <CustomInput variant={'textarea'} value={body} placeholder='note body' name='body' rows={15} onChange={handleInputChange} />
+                </section>
             </main>
         </Layout>
   )

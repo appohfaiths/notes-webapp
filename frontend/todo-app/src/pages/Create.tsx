@@ -40,7 +40,7 @@ export default function Create(): React.JSX.Element {
                 <h1 className='text-2xl text-red-500'>Create Note</h1>
                 <CTA type='create' customInput={titleInput} buttonAction={handleSave}/>
                 <section className='mt-8 p-2 rounded-xl border-2 border-primary-blue'>
-                    <CustomInput variant={'textarea'} value={body} placeholder='note body' name='body' rows={20} disabled={false} onChange={handleInputChange}/>
+                    <CustomInput variant={'textarea'} value={body} placeholder='note body' name='body' rows={15} disabled={false} onChange={handleInputChange}/>
                 </section>
             </main>
         </Layout>
