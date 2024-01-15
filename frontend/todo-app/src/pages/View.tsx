@@ -5,7 +5,7 @@ import { CTA, BackToHome } from '../components';
 import { ConvertUnixTimeToDate } from '../utils/utils';
 import { CustomInput } from '../components';
 import { useAppDispatch } from '../redux/app/hooks';
-import { deleteNote } from '../redux/features/notes/notesSlice';
+import { deleteNote, updateNote } from '../redux/features/notes/notesSlice';
 
 export default function View(): React.JSX.Element {
     const {state} = useLocation();
@@ -28,12 +28,27 @@ export default function View(): React.JSX.Element {
         dispatch(deleteNote(note_id))
     }
 
+    const handleUpdate = () => {
+        dispatch(updateNote(
+            {
+            "title": title,
+            "body": body,
+            "user_id": "frontend",
+            "note_id": note_id,
+            "created_time": 0,
+            "updated_time": 0
+            }
+        ))
+    }
+
     const titleInput = <CustomInput variant="text" placeholder="note title" name='title' value={title} onChange={handleInputChange} />
 
     return (
         <Layout>
             <main className='container mx-auto'>
-                <BackToHome />
+                <div onClick={handleUpdate}>
+                    <BackToHome />
+                </div>
                 <h1 className='text-2xl text-red-500'>View Note</h1>
                 <CTA type='view' customInput={titleInput} buttonAction={handleDelete}/>
                 <p>last updated: {ConvertUnixTimeToDate(updated_time)}</p>
