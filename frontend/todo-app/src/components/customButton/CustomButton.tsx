@@ -2,16 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { FaPlusCircle, FaSave, FaEdit, FaTrash } from 'react-icons/fa';
 import { CustomButtonProps } from "./types";
 
-export const CustomButton: React.FC<CustomButtonProps> = ({variant}) => {
+export const CustomButton: React.FC<CustomButtonProps> = ({variant, buttonAction}) => {
     const navigator = useNavigate();
 
-      const handleButtonClick = () => {
+      const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     switch (variant) {
       case 'create':
         navigator('/create');
         break;
       case 'edit':
         // Handle edit functionality (e.g., make fields editable)
+        break;
+      case 'save':
+        // Dispatch Redux action to save to the database
+        buttonAction(e)
+        // Redirect to the home page after saving
+        navigator('/');
         break;
       case 'delete':
         // Dispatch Redux action to delete from the database
