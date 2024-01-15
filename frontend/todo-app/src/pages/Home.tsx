@@ -19,7 +19,7 @@ export default function Home(): React.JSX.Element {
         <Layout>
             <main className='container mx-auto flex flex-col gap-8'>
                 <h1 className='text-2xl text-red-500 pt-8'>Home</h1>
-                <CTA type='home' title="What's on your mind?" />
+                <CTA type='home' title="What's on your mind?" buttonAction={() => null}/>
 
                 {isLoading ? <span>Loading</span> : <NotesDisplay notes={notes} />}
                 {error && <span>{error}</span>}
