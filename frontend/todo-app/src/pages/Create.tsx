@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
 import Layout from '../layouts/Layout'
 import { CTA, BackToHome, CustomInput } from '../components'
+import { addNote } from '../redux/features/notes/notesSlice'
+import { useAppDispatch } from '../redux/app/hooks'
 
 export default function Create(): React.JSX.Element {
     const [title, setTitle] = useState<string>('')
     const [body, setBody] = useState<string>('')
+    const dispatch = useAppDispatch();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement >) => {
         const {name, value} = e.target
@@ -16,9 +19,16 @@ export default function Create(): React.JSX.Element {
     }
 
     const handleSave = () => {
-        console.log(title + ' plus ' + body)
-        setTitle('')
-        setBody('')
+        dispatch(addNote(
+            {
+            "title": title,
+            "body": body,
+            "user_id": "frontend",
+            "note_id": "string",
+            "created_time": 0,
+            "updated_time": 0
+            }
+        ))
     }
 
     const titleInput = <CustomInput variant="text" placeholder="note title" name='title' value={title} onChange={handleInputChange}/>

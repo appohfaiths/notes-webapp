@@ -15,8 +15,7 @@ export const fetchNotes = createAsyncThunk(
     async () => {
         try {
             const response = await axios.get(`${baseApiEndpoint}/list-notes`);
-            console.log(response.data.notes);
-        return response.data.notes;
+            return response.data.notes;
         } catch (error) {
             console.error(error);
             throw error;
@@ -28,7 +27,7 @@ export const addNote = createAsyncThunk(
     "notes/addNote",
     async (note: Note) => {
         try {
-            const response = await axios.post(`${baseApiEndpoint}/create-note`, note);
+            const response = await axios.put(`${baseApiEndpoint}/create-note`, note);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -79,6 +78,43 @@ const notesSlice = createSlice({
         builder.addCase(fetchNotes.rejected, (state, action) => {
             state.isLoading = false;
             state.notes = [];
+            state.error = action.error.message || 'Something went wrong';
+        });
+        builder.addCase(addNote.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(addNote.fulfilled, (state, action: PayloadAction<{note: Note}>) => {
+            state.isLoading = false;
+            state.notes.push(action.payload.note);
+            state.error = null;
+        });
+        builder.addCase(addNote.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message || 'Something went wrong';
+        });
+        builder.addCase(updateNote.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(updateNote.fulfilled, (state, action: PayloadAction<Note>) => {
+            state.isLoading = false;
+            const noteIndex = state.notes.findIndex(note => note.note_id === action.payload.note_id);
+            state.notes[noteIndex] = action.payload;
+            state.error = null;
+        });
+        builder.addCase(updateNote.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message || 'Something went wrong';
+        });
+        builder.addCase(deleteNote.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(deleteNote.fulfilled, (state, action: PayloadAction<string>) => {
+            state.isLoading = false;
+            state.notes = state.notes.filter(note => note.note_id !== action.payload);
+            state.error = null;
+        });
+        builder.addCase(deleteNote.rejected, (state, action) => {
+            state.isLoading = false;
             state.error = action.error.message || 'Something went wrong';
         });
     }
