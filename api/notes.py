@@ -1,3 +1,4 @@
+from decimal import Decimal
 import time
 from typing import Optional
 from uuid import uuid4
@@ -48,7 +49,7 @@ async def create_note(note: Note):
         "created_time": created_time,
         "updated_time": created_time,
         "note_id": f"note_{uuid4().hex}",
-        "ttl": created_time + 86400
+        "ttl": created_time + 259200
     }
     # put note in table
     table = _get_table()
@@ -65,6 +66,16 @@ async def get_note(note_id: str):
         raise HTTPException(
             status_code=404, detail=f"note {note_id} not found")
     return {"note": item}
+
+
+@app.get("/list-notes")
+async def list_notes():
+    table = _get_table()
+    response = table.scan(
+        Limit=24,
+    )
+    notes = response.get("Items")
+    return {"notes": notes}
 
 
 @app.get("/list-notes/{user_id}")
@@ -84,17 +95,31 @@ async def list_notes(user_id: str):
 async def update_note(note: Note):
     updated_time = int(time.time())
     table = _get_table()
-    table.update_item(
+    response = table.update_item(
         Key={"note_id": note.note_id},
-        UpdateExpression="SET title = :title, body = :body, updated_time = :updated_time",
+        UpdateExpression="SET title = :title, body = :body, updated_time = :updated_time, created_time = if_not_exists(created_time, :created_time)",
         ExpressionAttributeValues={
             ":title": note.title,
             ":body": note.body,
             ":updated_time": updated_time,
+            ":created_time": note.created_time,
         },
         ReturnValues="ALL_NEW",
     )
-    return {"updated_note": note}
+    # Extract the updated note from the response
+    updated_note = response.get('Attributes', {})
+    if not updated_note:
+        raise HTTPException(
+            status_code=404, detail=f"note {note.note_id} not found")
+    # Include additional fields in the response
+    updated_note["user_id"] = note.user_id
+
+    # Convert Decimal types to regular Python types
+    for key, value in updated_note.items():
+        if isinstance(value, Decimal):
+            updated_note[key] = int(value)
+
+    return {"updated_note": updated_note}
 
 
 @app.delete("/delete-note/{note_id}")
