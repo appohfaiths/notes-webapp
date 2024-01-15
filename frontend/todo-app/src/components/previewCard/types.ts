@@ -1,7 +1,7 @@
 export interface PreviewCardProps {
     title: string;
     body: string;
-    created_at: number;
+    created_time: number;
     note_id: string;
-    updated_at?: number;
+    updated_time?: number;
 }

@@ -3,8 +3,8 @@ export interface Note {
     note_id: string;
     title: string;
     body: string;
-    created_at: number;
-    updated_at: number;
+    created_time: number;
+    updated_time: number;
 }
 
 export interface NoteState {

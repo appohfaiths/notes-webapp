@@ -1,41 +1,28 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Layout from '../layouts/Layout'
 import { CTA, NotesDisplay } from '../components'
+import { useAppDispatch, useAppSelector } from '../redux/app/hooks'
+import { selectNotes, selectIsLoading, selectError } from '../redux/features/notes/notesSlice'
+import { fetchNotes } from '../redux/features/notes/notesSlice'
 
 export default function Home(): React.JSX.Element {
+    const dispatch = useAppDispatch()
+    const notes = useAppSelector(selectNotes)
+    const isLoading = useAppSelector(selectIsLoading)
+    const error = useAppSelector(selectError)
 
-    const testNotes = [
-        {
-            note_id: "note1",
-            user_id: "user1",
-            title: 'Test Note',
-            body: 'This is a test note',
-            created_at: 1705106043,
-            updated_at: 0
-        },
-        {
-            note_id: "note2",
-            user_id: "user1",
-            title: 'Test Note 2',
-            body: 'This is a test note 2',
-            created_at: 1705106043,
-            updated_at: 0
-        },
-        {
-            note_id: "note3",
-            user_id: "user1",
-            title: 'Test Note 3',
-            body: 'This is a test note 3',
-            created_at: 1705177732,
-            updated_at: 0
-        }
-    ]
+    useEffect(() => {
+        dispatch(fetchNotes())
+    }, [dispatch])
+
     return (
         <Layout>
             <main className='container mx-auto flex flex-col gap-8'>
                 <h1 className='text-2xl text-red-500 pt-8'>Home</h1>
                 <CTA type='home' title="What's on your mind?" />
-                <NotesDisplay notes={testNotes} />
+
+                {isLoading ? <span>Loading</span> : <NotesDisplay notes={notes} />}
+                {error && <span>{error}</span>}
             </main>
         </Layout>
   )

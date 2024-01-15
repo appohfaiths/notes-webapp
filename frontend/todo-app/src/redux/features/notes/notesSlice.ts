@@ -15,7 +15,8 @@ export const fetchNotes = createAsyncThunk(
     async () => {
         try {
             const response = await axios.get(`${baseApiEndpoint}/list-notes`);
-        return response.data;
+            console.log(response.data.notes);
+        return response.data.notes;
         } catch (error) {
             console.error(error);
             throw error;
@@ -73,9 +74,11 @@ const notesSlice = createSlice({
         builder.addCase(fetchNotes.fulfilled, (state, action: PayloadAction<Note[]>) => {
             state.isLoading = false;
             state.notes = action.payload;
+            state.error = null;
         });
         builder.addCase(fetchNotes.rejected, (state, action) => {
             state.isLoading = false;
+            state.notes = [];
             state.error = action.error.message || 'Something went wrong';
         });
     }
