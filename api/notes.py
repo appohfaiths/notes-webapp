@@ -72,8 +72,6 @@ async def get_note(note_id: str):
 async def list_notes():
     table = _get_table()
     response = table.scan(
-        IndexName="updated-time-index",
-        ScanIndexForward=False,
         Limit=24,
     )
     notes = response.get("Items")

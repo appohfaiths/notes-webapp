@@ -28,13 +28,6 @@ export class TodoAppInfraStack extends cdk.Stack {
       sortKey: { name: 'created_time', type: ddb.AttributeType.NUMBER },
     });
 
-    // add global secondary index based on updated time
-    table.addGlobalSecondaryIndex({
-      indexName: 'updated-time-index',
-      partitionKey: { name: 'updated_time', type: ddb.AttributeType.NUMBER },
-      sortKey: { name: 'note_id', type: ddb.AttributeType.STRING },
-    });
-
     // create lambda function for the api
     const api = new lambda.Function(this, 'API', {
       runtime: lambda.Runtime.PYTHON_3_11,
