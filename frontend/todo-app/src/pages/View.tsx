@@ -5,7 +5,7 @@ import { CTA, BackToHome } from '../components';
 import { ConvertUnixTimeToDate } from '../utils/utils';
 import { CustomInput } from '../components';
 import { useAppDispatch } from '../redux/app/hooks';
-import { deleteNote, updateNote } from '../redux/features/notes/notesSlice';
+import { deleteNote, updateNote,fetchNotes } from '../redux/features/notes/notesSlice';
 import { toast } from 'react-toastify'
 import { CustomErrorResponse } from '../types/error';
 import ReactModal from 'react-modal'
@@ -90,7 +90,8 @@ export default function View(): React.JSX.Element {
             autoClose: 2000,
         });
         // Redirect to the home page
-        navigator('/');
+            navigator('/');
+            dispatch(fetchNotes())
         } else {
         // If the dispatch fails, show an error toast with the error message
             const error = resultAction.payload as CustomErrorResponse;
