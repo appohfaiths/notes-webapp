@@ -11,19 +11,12 @@ export const CustomButton: React.FC<CustomButtonProps> = ({variant, buttonAction
         navigator('/create');
         break;
       case 'edit':
-        // Handle edit functionality (e.g., make fields editable)
         break;
       case 'save':
-        // Dispatch Redux action to save to the database
         buttonAction(e)
-        // Redirect to the home page after saving
-        navigator('/');
         break;
       case 'delete':
-        // Dispatch Redux action to delete from the database
         buttonAction(e)
-        // Redirect to the home page after deletion
-        navigator('/');
         break;
       default:
         break;
@@ -79,7 +72,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({variant, buttonAction
     return (
         <button
       onClick={handleButtonClick}
-      className={`text-white font-bold py-2 px-4 rounded-xl ${getButtonColor()}`}
+      className={`text-white font-bold py-2 px-4 rounded-xl flex gap-2 items-center ${getButtonColor()}`}
     >
       {renderButtonContent()}
     </button>
