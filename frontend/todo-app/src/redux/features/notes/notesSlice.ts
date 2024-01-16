@@ -14,7 +14,7 @@ export const fetchNotes = createAsyncThunk(
     "notes/getNotes",
     async () => {
         try {
-            const response = await axios.get(`${baseApiEndpoint}/list-notes`);
+            const response = await axios.get(`${baseApiEndpoint}/list-notes/frontend`);
             return response.data.notes;
         } catch (error) {
             console.error(error);
