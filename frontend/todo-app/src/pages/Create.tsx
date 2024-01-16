@@ -24,35 +24,42 @@ export default function Create(): React.JSX.Element {
         }
     }
 
-const handleSave = () => {
-  dispatch(addNote({
-    "title": title,
-    "body": body,
-    "user_id": "frontend",
-    "note_id": "string",
-    "created_time": 0,
-    "updated_time": 0
-  }))
-  .then((resultAction) => {
-    // Check if the action is fulfilled or rejected
-    if (addNote.fulfilled.match(resultAction)) {
-      // If the dispatch is successful, show a success toast
-      toast.success('Note added successfully!', {
-        position: 'top-right',
-        autoClose: 2000,
-      });
-      // Redirect to the home page
-      navigator('/');
-    } else {
-      // If the dispatch fails, show an error toast with the error message
-        const error = resultAction.payload as CustomErrorResponse;
-        const errorMessage = error.detail;
-        toast.error(`Failed to add note: ${errorMessage ? errorMessage : error || 'Something went wrong'}`, {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+    const handleSave = () => {
+        if (title === '' || body === '')
+        toast.error('Please add a title and some text', {
+            position: 'top-right',
+            autoClose: 3000,
+        });
+        else {
+        dispatch(addNote({
+            "title": title,
+            "body": body,
+            "user_id": "frontend",
+            "note_id": "string",
+            "created_time": 0,
+            "updated_time": 0
+        }))
+        .then((resultAction) => {
+            // Check if the action is fulfilled or rejected
+            if (addNote.fulfilled.match(resultAction)) {
+            // If the dispatch is successful, show a success toast
+            toast.success('Note added successfully!', {
+                position: 'top-right',
+                autoClose: 2000,
+            });
+            // Redirect to the home page
+            navigator('/');
+            } else {
+            // If the dispatch fails, show an error toast with the error message
+                const error = resultAction.payload as CustomErrorResponse;
+                const errorMessage = error.detail;
+                toast.error(`Failed to add note: ${errorMessage ? errorMessage : error || 'Something went wrong'}`, {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            }
+        });
     }
-  });
 };
 
 

@@ -64,6 +64,11 @@ export default function View(): React.JSX.Element {
     }
 
     const handleUpdate = () => {
+        if (title === '' || body === '')
+        {toast.error('Cannot save empty note', {
+            position: 'top-right',
+            autoClose: 3000,
+        })}
         if (title !== originalState.title || body !== originalState.body)
         dispatch(updateNote(
             {
