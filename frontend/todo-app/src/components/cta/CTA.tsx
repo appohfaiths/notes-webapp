@@ -6,13 +6,13 @@ export const CTA: React.FC<CTAProps> = ({ type, title, customInput, buttonAction
     const renderLeftSection = () => {
         switch (type) {
             case 'home':
-                return <h1 className='text-2xl text-red-500'>{title}</h1>
+                return <h1 className='text-4xl text-secondary-black'>{title}</h1>
             case 'create':
                 return customInput ? customInput : null
             case 'view':
                 return customInput ? customInput : null
             default:
-                return <h1 className='text-2xl text-red-500'>Welcome to Note Pal</h1>
+                return <h1 className='text-4xl text-secondary-black'>Welcome to Note Pal</h1>
         }
     }
     const renderRightSection = () => {
@@ -31,7 +31,7 @@ export const CTA: React.FC<CTAProps> = ({ type, title, customInput, buttonAction
     }
   return (
       <header className="flex items-center justify-between border-2 border-primary-blue p-8 rounded-2xl">
-          <div>
+          <div className="w-full">
                 {renderLeftSection()}
           </div>
           <div>

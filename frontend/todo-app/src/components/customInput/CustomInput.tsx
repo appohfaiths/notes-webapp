@@ -9,7 +9,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({ variant, value, onChan
             case 'textarea':
                 return (<textarea placeholder={placeholder} name={name} disabled={disabled} value={value} onChange={onChange} rows={rows} className='w-full outline-none'/>)
             default:
-                return (<input type="text" placeholder={placeholder} name={name} disabled={disabled} value={value} onChange={onChange} className='p-2 text-display-title outline-none'/>)
+                return (<input type="text" placeholder={placeholder} name={name} disabled={disabled} value={value} onChange={onChange} className='p-2 text-display-title outline-none w-full'/>)
         }
     }
   return (

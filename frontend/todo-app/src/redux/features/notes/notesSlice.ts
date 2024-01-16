@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import { Note, NoteState } from "../../../types/note";
 import { RootState } from "../../app/store";
 import { baseApiEndpoint } from "../../../utils/constants";
@@ -25,13 +25,26 @@ export const fetchNotes = createAsyncThunk(
 
 export const addNote = createAsyncThunk(
     "notes/addNote",
-    async (note: Note) => {
+    async (note: Note, {rejectWithValue}) => {
         try {
             const response = await axios.put(`${baseApiEndpoint}/create-note`, note);
             return response.data;
         } catch (error) {
-            console.error(error);
-            throw error;
+            if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 400) {
+          // Handle 400 Bad Request
+            const errorMessage = axiosError.response?.data;
+            console.log(errorMessage);
+          return rejectWithValue(errorMessage || "Bad Request");
+        } else {
+          // Handle other status codes
+          return rejectWithValue(`Request failed with status code ${axiosError.response?.status}`);
+        }
+      } else {
+        // Handle non-Axios errors
+        return rejectWithValue("Something went wrong");
+      }
         }
     }
 )
