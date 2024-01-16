@@ -71,7 +71,7 @@ export default function Create(): React.JSX.Element {
                 {isLoading && (<div className="fixed inset-0 bg-secondary-black opacity-30 z-50"></div>)}
                 {isLoading && <div className='mx-auto absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'><TailSpin color="blue" radius={2} height={300} strokeWidth={3}/></div>}
                 <div className='flex items-center justify-between'>
-                    <h1 className='text-4xl text-primary-blue p-4'>Create Note</h1>
+                    <h1 className='text-4xl font-semibold text-primary-blue p-4'>Create Note</h1>
                     <BackToHome />
                 </div>
                 <CTA type='create' customInput={titleInput} buttonAction={handleSave}/>

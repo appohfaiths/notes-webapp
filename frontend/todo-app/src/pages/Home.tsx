@@ -20,7 +20,7 @@ export default function Home(): React.JSX.Element {
     return (
         <Layout>
             <main className='container mx-auto flex flex-col gap-8'>
-                <h1 className='text-4xl text-primary-blue pt-8'>Home</h1>
+                <h1 className='text-4xl font-semibold text-primary-blue pt-8'>Home</h1>
                 <CTA type='home' title="What's on your mind?" buttonAction={() => null}/>
 
                 {isLoading ? <div className='mx-auto'><TailSpin color="blue" radius={2} height={300} strokeWidth={3}/></div> : <NotesDisplay notes={notes} />}

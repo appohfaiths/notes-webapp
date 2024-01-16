@@ -19,6 +19,7 @@ export default function View(): React.JSX.Element {
     const dispatch = useAppDispatch();
     const navigator = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    ReactModal.setAppElement('#root');
 
     useEffect(() => {
     // Update originalState when the state changes
